@@ -1,71 +1,68 @@
 #include "sort.h"
 
 /**
- * insertion_sort - sorts a doubly linked list of integers in
- *                  ascending order using the Insertion sort algorithm
+ * insertion_sort_list - sorts a doubly linked list of integers in
+ *                       ascending order using the Insertion sort algorithm
  * @list: head of the doubly linked list
  *
  * Return: void
  */
 void insertion_sort_list(listint_t **list)
 {
-	listint_t *tmp1, *tmp2;
-	int i, j;
+	listint_t *head, *tmp;
 
 	if (list == NULL)
 		return;
 
-	tmp1 = *list;
-
-	for (i = 0; tmp1 != NULL; i++)
+	head = *list;
+	while (head != NULL)
 	{
-		tmp2 = tmp1;
-		for (j = i; j > 0; j--)
+		tmp = head;
+		head = head->next;
+		while (tmp->prev != NULL)
 		{
-			if (tmp2->n < tmp2->prev->n)
+			if (tmp->prev->n > tmp->n)
 			{
-				insert_node(list, tmp1, j);
+				swap_node(tmp->prev, tmp);
+				if (tmp->prev == NULL)
+					*list = tmp;
 				print_list(*list);
 			}
-			tmp2 = tmp2->prev;
+			else
+			{
+				tmp = tmp->prev;
+			}
 		}
-		tmp1 = tmp1->next;
 	}
 }
 
 /**
-* insert_node - inserts a  node in a given position
-* @list: head of the doubly linked list
-* @node: pointer to the node to be inserted at index
-* @index: index where the node will be inserted
+* swap_node - swaps twoa adjacent nodes in a doubly linked list
+* @node_a: pointer to the node previous to node_b
+* @node_b: pointer to the node next to node_a
 *
 * Return: void
 */
-void insert_node(listint_t **list, listint_t *node, unsigned int index)
+void swap_node(listint_t *node_a, listint_t *node_b)
 {
-	listint_t *tmp;
-	unsigned int i;
-
-	tmp = *list;
-	for (i = 0; i < index; i++)
+	if (node_a->prev != NULL)
 	{
-		tmp = tmp->next;
-		if (tmp == NULL)
-			return;
-	}
-	if (node->next != NULL)
-		node->next->prev = node->prev;
-	if (node->prev != NULL)
-		node->prev->next = node->next;
-	if (tmp->prev != NULL)
-	{
-		tmp->prev->next = node;
-		node->prev = tmp->prev;
+		node_a->prev->next = node_b;
+		node_b->prev = node_a->prev;
 	}
 	else
 	{
-		node->prev = NULL;
+		node_b->prev = NULL;
 	}
-	node->next = tmp;
-	tmp->prev = node;
+	if (node_b->next != NULL)
+	{
+		node_b->next->prev = node_a;
+		node_a->next = node_b->next;
+	}
+	else
+	{
+		node_a->next = NULL;
+	}
+	node_a->prev = node_b;
+	node_b->next = node_a;
 }
