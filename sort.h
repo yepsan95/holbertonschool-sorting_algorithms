@@ -28,6 +28,7 @@ void quick_recursion(int *array, int first, int last, size_t size);
 
 void swap_node(listint_t *node_a, listint_t *node_b);
 void swap_int(int *a, int *b);
+int partition(int *array, int first, int last, size_t size);
 listint_t *create_listint(const int *array, size_t size);
 
 #endif /*SORT_H*/
