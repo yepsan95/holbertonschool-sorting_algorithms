@@ -30,7 +30,7 @@ void quick_recursion(int *array, int first, int last, size_t size)
 {
 	int pivot;
 
-	if (first < last)
+	if (first >= last)
 		return;
 
 	pivot = partition(array, first, last, size);
@@ -38,6 +38,7 @@ void quick_recursion(int *array, int first, int last, size_t size)
 	quick_recursion(array, first, pivot - 1, size);
 	quick_recursion(array, pivot + 1, last, size);
 }
+
 /**
  * partition - performs a Quick sort in a partition of an array of integers
  * @array: array of integers to be sorted
@@ -56,7 +57,7 @@ int partition(int *array, int first, int last, size_t size)
 
 	for (j = first; j < last; j++)
 	{
-		if (array[j] <= pivot)
+		if (array[j] < pivot)
 		{
 			i++;
 			swap_int(&array[i], &array[j]);
